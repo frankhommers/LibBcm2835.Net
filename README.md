@@ -13,14 +13,14 @@ You can also supply your own libbcm2835.so file (just put it next to the dll on 
 How to get started?
 -------------------
 
-* Install Mono on your Raspberry Pi.
+* Install Mono on your Raspberry Pi. (with the commands below)
 ```
 sudo apt-get update
 sudo apt-get install mono-complete
 ```
-* Compile the sample Blink project.  
+* Compile the sample Blink project (Using Visual Studio, Mono Develop or mcs).
 * Copy the output directory (at least Blink.exe and LibBcm2835.dll) to your Raspberry Pi.  
-* Run  
+* Run Blink.exe (with the command below)
 ```
 sudo mono Blink.exe
 ```
