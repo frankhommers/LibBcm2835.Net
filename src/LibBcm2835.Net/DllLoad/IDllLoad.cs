@@ -22,7 +22,7 @@
 //SOFTWARE.
 #endregion
 #region Attribution
-// Originally From: http://dimitry-i.blogspot.com/2013/01/mononet-how-to-dynamically-load-native.html
+// Loosely based on: http://dimitry-i.blogspot.com/2013/01/mononet-how-to-dynamically-load-native.html
 #endregion
 
 using System;
