@@ -13,14 +13,14 @@ You can also supply your own libbcm2835.so file (just put it next to the dll on 
 How to get started?
 -------------------
 
-Install Mono on your Raspberry Pi.
+* Install Mono on your Raspberry Pi. (with the commands below)
 ```
 sudo apt-get update
 sudo apt-get install mono-complete
 ```
-Compile the sample Blink project.  
-Copy the output directory (at least Blink.exe and LibBcm2835.dll) to your Raspberry Pi.  
-Run  
+* Compile the sample Blink project (Using Visual Studio, Mono Develop or mcs).
+* Copy the output directory (at least Blink.exe and LibBcm2835.dll) to your Raspberry Pi.  
+* Run Blink.exe (with the command below)
 ```
 sudo mono Blink.exe
 ```
@@ -65,3 +65,33 @@ while (true)
   bcm2835.bcm2835_delay(500);
 }
 ```
+
+Notice
+------
+I only tested this on Raspbian. I assume it works on other distributions as well.
+I will accept Pull Requests to make it (more) compatible with other distributions.
+
+
+License
+-------
+The MIT License (MIT)
+
+Copyright (c) 2014 Frank Hommers ( http://hmm.rs/LibBcm2835.Net )
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
