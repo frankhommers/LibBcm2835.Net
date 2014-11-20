@@ -4,7 +4,7 @@ LibBcm2835.Net
 A .NET/Mono Wrapper for Mike McCauley's C library for Broadcom BCM 2835 as used in Raspberry Pi  
 ( http://www.airspayce.com/mikem/bcm2835/index.html )
 
-Intended as a C#/.NET/Mono wrapper for the full functionality the above library.  
+Intended as a C#/.NET/Mono wrapper for the full functionality of that library.  
 
 It already contains the bcm2835-1.xx.tar.gz file, it will try to extract and compile the library on first use. 
 You can also supply your own libbcm2835.so file (just put it next to the dll on your target system). Make sure it's the same version as the one included here.
