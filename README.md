@@ -29,7 +29,7 @@ Example
 -------
 This is based on the original blink.c.
 ```C#
-// Blinks on RPi Plug P1 pin 11 (which is GPIO pin 17)
+// Blinks on RPi Plug P1 pin 7 (which is GPIO 4)
 const Byte pin = (byte)Bcm2835.RPiGPIOPin.RPI_V2_GPIO_P1_07;
 
 // Will extract (from embedded resource) and compile the library 
