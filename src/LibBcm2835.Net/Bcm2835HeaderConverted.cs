@@ -38,14 +38,15 @@ namespace LibBcm2835.Net
     /// <summary>250 MHz</summary>
     public const UInt32 BCM2835_CORE_CLK_HZ = 250000000;
     public const UInt32 BCM2835_PERI_BASE = 0x20000000;
-    public const UInt32 BCM2835_ST_BASE = (BCM2835_PERI_BASE + 0x3000);
-    public const UInt32 BCM2835_GPIO_PADS = (BCM2835_PERI_BASE + 0x100000);
-    public const UInt32 BCM2835_CLOCK_BASE = (BCM2835_PERI_BASE + 0x101000);
-    public const UInt32 BCM2835_GPIO_BASE = (BCM2835_PERI_BASE + 0x200000);
-    public const UInt32 BCM2835_SPI0_BASE = (BCM2835_PERI_BASE + 0x204000);
-    public const UInt32 BCM2835_BSC0_BASE = (BCM2835_PERI_BASE + 0x205000);
-    public const UInt32 BCM2835_GPIO_PWM = (BCM2835_PERI_BASE + 0x20C000);
-    public const UInt32 BCM2835_BSC1_BASE = (BCM2835_PERI_BASE + 0x804000);
+    public const UInt32 BCM2835_PERI_SIZE = 0x01000000;
+    public const UInt32 BCM2835_ST_BASE = 0x3000;
+    public const UInt32 BCM2835_GPIO_PADS = 0x100000;
+    public const UInt32 BCM2835_CLOCK_BASE = 0x101000;
+    public const UInt32 BCM2835_GPIO_BASE = 0x200000;
+    public const UInt32 BCM2835_SPI0_BASE = 0x204000;
+    public const UInt32 BCM2835_BSC0_BASE = 0x205000;
+    public const UInt32 BCM2835_GPIO_PWM = 0x20C000;
+    public const UInt32 BCM2835_BSC1_BASE = 0x804000;
     public const UInt32 BCM2835_PAGE_SIZE = (4 * 1024);
     public const UInt32 BCM2835_BLOCK_SIZE = (4 * 1024);
     /// <summary>GPIO Function Select 0</summary>
@@ -424,6 +425,24 @@ namespace LibBcm2835.Net
       RPI_V2_GPIO_P1_24 = 8,
       /// <summary>Version 2, Pin P1-26, CE1 when SPI0 in use</summary>
       RPI_V2_GPIO_P1_26 = 7,
+      /// <summary>Version 2, Pin P1-29</summary>
+      RPI_V2_GPIO_P1_29     =  5,
+      /// <summary>Version 2, Pin P1-31</summary>
+      RPI_V2_GPIO_P1_31     =  6,
+      /// <summary>Version 2, Pin P1-32</summary>
+      RPI_V2_GPIO_P1_32     = 12,
+      /// <summary>Version 2, Pin P1-33</summary>
+      RPI_V2_GPIO_P1_33     = 13,
+      /// <summary>Version 2, Pin P1-35, can be PWM channel 1 in ALT FUN 5</summary>
+      RPI_V2_GPIO_P1_35     = 19,
+      /// <summary>Version 2, Pin P1-36</summary>
+      RPI_V2_GPIO_P1_36     = 16,
+      /// <summary>Version 2, Pin P1-37</summary>
+      RPI_V2_GPIO_P1_37     = 26,
+      /// <summary>Version 2, Pin P1-38</summary>
+      RPI_V2_GPIO_P1_38     = 20,
+      /// <summary>Version 2, Pin P1-40</summary>
+      RPI_V2_GPIO_P1_40     = 21,
       /// <summary>Version 2, Pin P5-03</summary>
       RPI_V2_GPIO_P5_03 = 28,
       /// <summary>Version 2, Pin P5-04</summary>
@@ -516,39 +535,39 @@ namespace LibBcm2835.Net
     }
     public enum bcm2835SPIClockDivider
     {
-      /// <summary>65536 = 262.144us = 3.814697260kHz</summary>
+      /// <summary>65536 = 3.814697260kHz on Rpi2, 6.1035156kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_65536 = 0,
-      /// <summary>32768 = 131.072us = 7.629394531kHz</summary>
+      /// <summary>32768 = 7.629394531kHz on Rpi2, 12.20703125kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_32768 = 32768,
-      /// <summary>16384 = 65.536us = 15.25878906kHz</summary>
+      /// <summary>16384 = 15.25878906kHz on Rpi2, 24.4140625kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_16384 = 16384,
-      /// <summary>8192 = 32.768us = 30/51757813kHz</summary>
+      /// <summary>8192 = 30.51757813kHz on Rpi2, 48.828125kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_8192 = 8192,
-      /// <summary>4096 = 16.384us = 61.03515625kHz</summary>
+      /// <summary>4096 = 61.03515625kHz on Rpi2, 97.65625kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_4096 = 4096,
-      /// <summary>2048 = 8.192us = 122.0703125kHz</summary>
+      /// <summary>2048 = 122.0703125kHz on Rpi2, 195.3125kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_2048 = 2048,
-      /// <summary>1024 = 4.096us = 244.140625kHz</summary>
+      /// <summary>1024 = 244.140625kHz on Rpi2, 390.625kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_1024 = 1024,
-      /// <summary>512 = 2.048us = 488.28125kHz</summary>
+      /// <summary>512 = 488.28125kHz on Rpi2, 781.25kHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_512 = 512,
-      /// <summary>256 = 1.024us = 976.5625MHz</summary>
+      /// <summary>256 = 976.5625kHz on Rpi2, 1.5625MHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_256 = 256,
-      /// <summary>128 = 512ns = = 1.953125MHz</summary>
+      /// <summary>128 = 1.953125MHz on Rpi2, 3.125MHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_128 = 128,
-      /// <summary>64 = 256ns = 3.90625MHz</summary>
+      /// <summary>64 = 3.90625MHz on Rpi2, 6.250MHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_64 = 64,
-      /// <summary>32 = 128ns = 7.8125MHz</summary>
+      /// <summary>32 = 7.8125MHz on Rpi2, 12.5MHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_32 = 32,
-      /// <summary>16 = 64ns = 15.625MHz</summary>
+      /// <summary>16 = 15.625MHz on Rpi2, 25MHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_16 = 16,
-      /// <summary>8 = 32ns = 31.25MHz</summary>
+      /// <summary>8 = 31.25MHz on Rpi2, 50MHz on RPI3</summary>
       BCM2835_SPI_CLOCK_DIVIDER_8 = 8,
-      /// <summary>4 = 16ns = 62.5MHz</summary>
+      /// <summary>4 = 62.5MHz on Rpi2, 100MHz on RPI3. Dont expect this speed to work reliably.</summary>
       BCM2835_SPI_CLOCK_DIVIDER_4 = 4,
-      /// <summary>2 = 8ns = 125MHz, fastest you can get</summary>
+      /// <summary>2 = 125MHz on Rpi2, 200MHz on RPI3, fastest you can get. Dont expect this speed to work reliably.</summary>
       BCM2835_SPI_CLOCK_DIVIDER_2 = 2,
-      /// <summary>1 = 262.144us = 3.814697260kHz, same as 0/65536</summary>
+      /// <summary>1 = 3.814697260kHz on Rpi2, 6.1035156kHz on RPI3, same as 0/65536</summary>
       BCM2835_SPI_CLOCK_DIVIDER_1 = 1,
     }
     public enum bcm2835I2CClockDivider
@@ -575,14 +594,6 @@ namespace LibBcm2835.Net
     }
     public enum bcm2835PWMClockDivider
     {
-      /// <summary>32768 = 585Hz</summary>
-      BCM2835_PWM_CLOCK_DIVIDER_32768 = 32768,
-      /// <summary>16384 = 1171.8Hz</summary>
-      BCM2835_PWM_CLOCK_DIVIDER_16384 = 16384,
-      /// <summary>8192 = 2.34375kHz</summary>
-      BCM2835_PWM_CLOCK_DIVIDER_8192 = 8192,
-      /// <summary>4096 = 4.6875kHz</summary>
-      BCM2835_PWM_CLOCK_DIVIDER_4096 = 4096,
       /// <summary>2048 = 9.375kHz</summary>
       BCM2835_PWM_CLOCK_DIVIDER_2048 = 2048,
       /// <summary>1024 = 18.75kHz</summary>
@@ -616,13 +627,17 @@ namespace LibBcm2835.Net
     private delegate Int32 bcm2835_init_delegate();
     private Int32 bcm2835_init_unresolved() { throw new MissingMethodException(); }
     private bcm2835_init_delegate _bcm2835_init_method;
-    /// <summary>Initialise the library by opening /dev/mem and getting pointers to the</summary>
+    /// <summary>
+    /// Initialise the library by opening /dev/mem (if you are root) or /dev/gpiomem (if you are not)
+    /// and getting pointers to the internal memory for BCM 2835 device registers.</summary>
     /// <remarks>
-    /// internal memory for BCM 2835 device registers. You must call this (successfully)
+    /// You must call this (successfully)
     /// before calling any other
     /// functions in this library (except bcm2835_set_debug).
     /// If bcm2835_init() fails by returning 0,
     /// calling any other function may result in crashes or other failures.
+    /// If bcm2835_init() succeeds but you are not running as root, then only gpio operations
+    /// are permitted, and calling any other functions may result in crashes or other failures. .
     /// Prints messages to stderr in case of errors.
     /// </remarks>
     /// <returns>1 if successful else 0</returns>
@@ -662,6 +677,18 @@ namespace LibBcm2835.Net
     }
     #endregion
 
+    #region "bcm2835_version"
+    private delegate UInt32 bcm2835_version_delegate();
+    private UInt32 bcm2835_version_unresolved() { throw new MissingMethodException(); }
+    private bcm2835_version_delegate _bcm2835_version_method;
+    /// <summary>Returns the version number of the library, same as BCM2835_VERSION</summary>
+    /// <returns>the current library version number</returns>
+    public UInt32 bcm2835_version()
+    {
+      return _bcm2835_version_method();
+    }
+    #endregion
+
     #region "bcm2835_regbase"
     private delegate IntPtr bcm2835_regbase_delegate(Byte regbase);
     private IntPtr bcm2835_regbase_unresolved(Byte regbase) { throw new MissingMethodException(); }
@@ -683,10 +710,10 @@ namespace LibBcm2835.Net
     private delegate UInt32 bcm2835_peri_read_delegate(IntPtr paddr);
     private UInt32 bcm2835_peri_read_unresolved(IntPtr paddr) { throw new MissingMethodException(); }
     private bcm2835_peri_read_delegate _bcm2835_peri_read_method;
-    /// <summary>Reads 32 bit value from a peripheral address</summary>
+    /// <summary>Reads 32 bit value from a peripheral address WITH a memory barrier before and after each read.</summary>
     /// <remarks>
-    /// The read is done twice, and is therefore always safe in terms of
-    /// manual section 1.3 Peripheral access precautions for correct memory ordering
+    /// This is safe, but slow.  The MB before protects this read from any in-flight reads that didn't
+    /// use a MB.  The MB after protects subsequent reads from another peripheral.
     /// (see also) Physical Addresses
     /// </remarks>
     /// <param name="paddr">Physical address to read from. See BCM2835_GPIO_BASE etc.</param>
@@ -719,10 +746,14 @@ namespace LibBcm2835.Net
     private delegate void bcm2835_peri_write_delegate(IntPtr paddr, UInt32 value);
     private void bcm2835_peri_write_unresolved(IntPtr paddr, UInt32 value) { throw new MissingMethodException(); }
     private bcm2835_peri_write_delegate _bcm2835_peri_write_method;
-    /// <summary>Writes 32 bit value from a peripheral address</summary>
+    /// <summary>Writes 32 bit value from a peripheral address WITH a memory barrier before and after each write</summary>
     /// <remarks>
-    /// The write is done twice, and is therefore always safe in terms of
-    /// manual section 1.3 Peripheral access precautions for correct memory ordering
+    /// This is safe, but slow.  The MB before ensures that any in-flight write to another peripheral
+    /// completes before this write is issued.  The MB after ensures that subsequent reads and writes
+    /// to another peripheral will see the effect of this write.
+    /// 
+    /// This is a tricky optimization; if you aren't sure, use the barrier version.
+    /// 
     /// (see also) Physical Addresses
     /// </remarks>
     /// <param name="paddr">Physical address to read from. See BCM2835_GPIO_BASE etc.</param>
@@ -739,8 +770,13 @@ namespace LibBcm2835.Net
     private bcm2835_peri_write_nb_delegate _bcm2835_peri_write_nb_method;
     /// <summary>Writes 32 bit value from a peripheral address without the write barrier</summary>
     /// <remarks>
-    /// You should only use this when your code has previously called bcm2835_peri_write()
+    /// You should only use this when:
+    /// o your code has previously called bcm2835_peri_write() for a register
     /// within the same peripheral, and no other peripheral access has occurred since.
+    /// o your code has called bcm2835_memory_barrier() since the last access to ANOTHER peripheral.
+    /// 
+    /// This is a tricky optimization; if you aren't sure, use the barrier version.
+    /// 
     /// (see also) Physical Addresses
     /// </remarks>
     /// <param name="paddr">Physical address to read from. See BCM2835_GPIO_BASE etc.</param>
@@ -757,12 +793,12 @@ namespace LibBcm2835.Net
     private bcm2835_peri_set_bits_delegate _bcm2835_peri_set_bits_method;
     /// <summary>Alters a number of bits in a 32 peripheral regsiter.</summary>
     /// <remarks>
-    /// It reads the current valu and then alters the bits deines as 1 in mask,
+    /// It reads the current valu and then alters the bits defines as 1 in mask, 
     /// according to the bit value in value.
     /// All other bits that are 0 in the mask are unaffected.
     /// Use this to alter a subset of the bits in a register.
-    /// The write is done twice, and is therefore always safe in terms of
-    /// manual section 1.3 Peripheral access precautions for correct memory ordering
+    /// Memory barriers are used.  Note that this is not atomic; an interrupt
+    /// routine can cause unexpected results.
     /// (see also) Physical Addresses
     /// </remarks>
     /// <param name="paddr">Physical address to read from. See BCM2835_GPIO_BASE etc.</param>
@@ -890,6 +926,19 @@ namespace LibBcm2835.Net
     }
     #endregion
 
+    #region "bcm2835_gpio_eds_multi"
+    private delegate UInt32 bcm2835_gpio_eds_multi_delegate(UInt32 mask);
+    private UInt32 bcm2835_gpio_eds_multi_unresolved(UInt32 mask) { throw new MissingMethodException(); }
+    private bcm2835_gpio_eds_multi_delegate _bcm2835_gpio_eds_multi_method;
+    /// <summary>Same as bcm2835_gpio_eds() but checks if any of the pins specified in the mask have detected a level or edge.</summary>
+    /// <param name="mask">Mask of pins to check. Use eg: (1 &lt;&lt; RPI_GPIO_P1_03) | (1 &lt;&lt; RPI_GPIO_P1_05)</param>
+    /// <returns>Mask of pins HIGH if the event detect status for the given pin is true.</returns>
+    public UInt32 bcm2835_gpio_eds_multi(UInt32 mask)
+    {
+      return _bcm2835_gpio_eds_multi_method(mask);
+    }
+    #endregion
+
     #region "bcm2835_gpio_set_eds"
     private delegate void bcm2835_gpio_set_eds_delegate(Byte pin);
     private void bcm2835_gpio_set_eds_unresolved(Byte pin) { throw new MissingMethodException(); }
@@ -903,6 +952,18 @@ namespace LibBcm2835.Net
     public void bcm2835_gpio_set_eds(Byte pin)
     {
       _bcm2835_gpio_set_eds_method(pin);
+    }
+    #endregion
+
+    #region "bcm2835_gpio_set_eds_multi"
+    private delegate void bcm2835_gpio_set_eds_multi_delegate(UInt32 mask);
+    private void bcm2835_gpio_set_eds_multi_unresolved(UInt32 mask) { throw new MissingMethodException(); }
+    private bcm2835_gpio_set_eds_multi_delegate _bcm2835_gpio_set_eds_multi_method;
+    /// <summary>Same as bcm2835_gpio_set_eds() but clears the flag for any pin which is set in the mask.</summary>
+    /// <param name="mask">Mask of pins to clear. Use eg: (1 &lt;&lt; RPI_GPIO_P1_03) | (1 &lt;&lt; RPI_GPIO_P1_05)</param>
+    public void bcm2835_gpio_set_eds_multi(UInt32 mask)
+    {
+      _bcm2835_gpio_set_eds_multi_method(mask);
     }
     #endregion
 
@@ -1119,6 +1180,7 @@ namespace LibBcm2835.Net
     private UInt32 bcm2835_gpio_pad_unresolved(Byte group) { throw new MissingMethodException(); }
     private bcm2835_gpio_pad_delegate _bcm2835_gpio_pad_method;
     /// <summary>Reads and returns the Pad Control for the given GPIO group.</summary>
+    /// <remarks>Caution: requires root access.</remarks>
     /// <param name="group">The GPIO pad group number, one of BCM2835_PAD_GROUP_GPIO_*</param>
     /// <returns>Mask of bits from BCM2835_PAD_* from bcm2835PadGroup</returns>
     public UInt32 bcm2835_gpio_pad(Byte group)
@@ -1132,12 +1194,13 @@ namespace LibBcm2835.Net
     private void bcm2835_gpio_set_pad_unresolved(Byte group, UInt32 control) { throw new MissingMethodException(); }
     private bcm2835_gpio_set_pad_delegate _bcm2835_gpio_set_pad_method;
     /// <summary>Sets the Pad Control for the given GPIO group.</summary>
-    /// <remarks>
+    /// <remarks>Caution: requires root access.</remarks>
+    /// <param name="group">The GPIO pad group number, one of BCM2835_PAD_GROUP_GPIO_*</param>
+    /// <param name="control">
+    /// Mask of bits from BCM2835_PAD_* from bcm2835PadGroup. Note
     /// that it is not necessary to include BCM2835_PAD_PASSWRD in the mask as this
     /// is automatically included.
-    /// </remarks>
-    /// <param name="group">The GPIO pad group number, one of BCM2835_PAD_GROUP_GPIO_*</param>
-    /// <param name="control">Mask of bits from BCM2835_PAD_* from bcm2835PadGroup. Note</param>
+    /// </param>
     public void bcm2835_gpio_set_pad(Byte group, UInt32 control)
     {
       _bcm2835_gpio_set_pad_method(group, control);
@@ -1245,20 +1308,21 @@ namespace LibBcm2835.Net
     #endregion
 
     #region "bcm2835_spi_begin"
-    private delegate void bcm2835_spi_begin_delegate();
-    private void bcm2835_spi_begin_unresolved() { throw new MissingMethodException(); }
+    private delegate Int32 bcm2835_spi_begin_delegate();
+    private Int32 bcm2835_spi_begin_unresolved() { throw new MissingMethodException(); }
     private bcm2835_spi_begin_delegate _bcm2835_spi_begin_method;
     /// <summary>Start SPI operations.</summary>
     /// <remarks>
     /// Forces RPi SPI0 pins P1-19 (MOSI), P1-21 (MISO), P1-23 (CLK), P1-24 (CE0) and P1-26 (CE1)
     /// to alternate function ALT0, which enables those pins for SPI interface.
     /// You should call bcm2835_spi_end() when all SPI funcitons are complete to return the pins to
-    /// their default functions
+    /// their default functions.
     /// (see also) bcm2835_spi_end()
     /// </remarks>
-    public void bcm2835_spi_begin()
+    /// <returns>1 if successful, 0 otherwise (perhaps because you are not running as root)</returns>
+    public Int32 bcm2835_spi_begin()
     {
-      _bcm2835_spi_begin_method();
+      return _bcm2835_spi_begin_method();
     }
     #endregion
 
@@ -1441,8 +1505,8 @@ namespace LibBcm2835.Net
     #endregion
 
     #region "bcm2835_i2c_begin"
-    private delegate void bcm2835_i2c_begin_delegate();
-    private void bcm2835_i2c_begin_unresolved() { throw new MissingMethodException(); }
+    private delegate int bcm2835_i2c_begin_delegate();
+    private int bcm2835_i2c_begin_unresolved() { throw new MissingMethodException(); }
     private bcm2835_i2c_begin_delegate _bcm2835_i2c_begin_method;
     /// <summary>Start I2C operations.</summary>
     /// <remarks>
@@ -1452,9 +1516,10 @@ namespace LibBcm2835.Net
     /// their default functions
     /// (see also) bcm2835_i2c_end()
     /// </remarks>
-    public void bcm2835_i2c_begin()
+    /// <returns>1 if successful, 0 otherwise (perhaps because you are not running as root)</returns>
+    public int bcm2835_i2c_begin()
     {
-      _bcm2835_i2c_begin_method();
+      return _bcm2835_i2c_begin_method();
     }
     #endregion
 
@@ -1697,6 +1762,7 @@ namespace LibBcm2835.Net
       _bcm2835_init_method = GetDelegate<bcm2835_init_delegate>("bcm2835_init", bcm2835_init_unresolved);
       _bcm2835_close_method = GetDelegate<bcm2835_close_delegate>("bcm2835_close", bcm2835_close_unresolved);
       _bcm2835_set_debug_method = GetDelegate<bcm2835_set_debug_delegate>("bcm2835_set_debug", bcm2835_set_debug_unresolved);
+      _bcm2835_version_method = GetDelegate<bcm2835_version_delegate>("bcm2835_version", bcm2835_version_unresolved);
       _bcm2835_regbase_method = GetDelegate<bcm2835_regbase_delegate>("bcm2835_regbase", bcm2835_regbase_unresolved);
       _bcm2835_peri_read_method = GetDelegate<bcm2835_peri_read_delegate>("bcm2835_peri_read", bcm2835_peri_read_unresolved);
       _bcm2835_peri_read_nb_method = GetDelegate<bcm2835_peri_read_nb_delegate>("bcm2835_peri_read_nb", bcm2835_peri_read_nb_unresolved);
@@ -1710,7 +1776,9 @@ namespace LibBcm2835.Net
       _bcm2835_gpio_clr_multi_method = GetDelegate<bcm2835_gpio_clr_multi_delegate>("bcm2835_gpio_clr_multi", bcm2835_gpio_clr_multi_unresolved);
       _bcm2835_gpio_lev_method = GetDelegate<bcm2835_gpio_lev_delegate>("bcm2835_gpio_lev", bcm2835_gpio_lev_unresolved);
       _bcm2835_gpio_eds_method = GetDelegate<bcm2835_gpio_eds_delegate>("bcm2835_gpio_eds", bcm2835_gpio_eds_unresolved);
+      _bcm2835_gpio_eds_multi_method = GetDelegate<bcm2835_gpio_eds_multi_delegate>("bcm2835_gpio_eds_multi", bcm2835_gpio_eds_multi_unresolved);
       _bcm2835_gpio_set_eds_method = GetDelegate<bcm2835_gpio_set_eds_delegate>("bcm2835_gpio_set_eds", bcm2835_gpio_set_eds_unresolved);
+      _bcm2835_gpio_set_eds_multi_method = GetDelegate<bcm2835_gpio_set_eds_multi_delegate>("bcm2835_gpio_set_eds_multi", bcm2835_gpio_set_eds_multi_unresolved);
       _bcm2835_gpio_ren_method = GetDelegate<bcm2835_gpio_ren_delegate>("bcm2835_gpio_ren", bcm2835_gpio_ren_unresolved);
       _bcm2835_gpio_clr_ren_method = GetDelegate<bcm2835_gpio_clr_ren_delegate>("bcm2835_gpio_clr_ren", bcm2835_gpio_clr_ren_unresolved);
       _bcm2835_gpio_fen_method = GetDelegate<bcm2835_gpio_fen_delegate>("bcm2835_gpio_fen", bcm2835_gpio_fen_unresolved);
