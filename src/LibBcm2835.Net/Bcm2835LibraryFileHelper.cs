@@ -85,7 +85,7 @@ namespace LibBcm2835.Net
 
       try
       {
-        const string archivedLibFileName = "bcm2835-1.52.tar.gz";
+        const string archivedLibFileName = "bcm2835-1.58.tar.gz";
         string tempPath = Path.Combine(Path.GetTempPath(), System.Guid.NewGuid().ToString().ToLower());
         string tempFileName = Path.Combine(tempPath, archivedLibFileName);
         createdDirectory = Directory.CreateDirectory(tempPath);

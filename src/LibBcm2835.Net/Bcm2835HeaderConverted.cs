@@ -46,6 +46,9 @@ namespace LibBcm2835.Net
     public const UInt32 BCM2835_SPI0_BASE = 0x204000;
     public const UInt32 BCM2835_BSC0_BASE = 0x205000;
     public const UInt32 BCM2835_GPIO_PWM = 0x20C000;
+    public const UInt32 BCM2835_AUX_BASE = 0x215000;
+    public const UInt32 BCM2835_SPI1_BASE = 0x215080;
+    public const UInt32 BCM2835_SPI2_BASE = 0x2150C0;
     public const UInt32 BCM2835_BSC1_BASE = 0x804000;
     public const UInt32 BCM2835_PAGE_SIZE = (4 * 1024);
     public const UInt32 BCM2835_BLOCK_SIZE = (4 * 1024);
@@ -315,6 +318,10 @@ namespace LibBcm2835.Net
       BCM2835_REGBASE_BSC0 = 7,
       /// <summary>Base of the BSC1 registers.</summary>
       BCM2835_REGBASE_BSC1 = 8,
+      /// <summary>Base of the AUX registers.</summary>
+      BCM2835_REGBASE_AUX = 9,
+      /// <summary>Base of the SPI1 registers.</summary>
+      BCM2835_REGBASE_SPI1 = 10
     }
     public enum bcm2835FunctionSelect
     {
@@ -1347,8 +1354,9 @@ namespace LibBcm2835.Net
     private bcm2835_spi_setBitOrder_delegate _bcm2835_spi_setBitOrder_method;
     /// <summary>Sets the SPI bit order</summary>
     /// <remarks>
-    /// NOTE: has no effect. Not supported by SPI0.
-    /// Defaults to
+    ///    Set the bit order to be used for transmit and receive. The bcm2835 SPI0 only supports BCM2835_SPI_BIT_ORDER_MSB,
+    ///    so if you select BCM2835_SPI_BIT_ORDER_LSB, the bytes will be reversed in software.
+    ///    The library defaults to BCM2835_SPI_BIT_ORDER_MSB.
     /// see bcm2835SPIBitOrder
     /// </remarks>
     /// <param name="order">The desired bit order, one of BCM2835_SPI_BIT_ORDER_*,</param>
@@ -1371,6 +1379,20 @@ namespace LibBcm2835.Net
     public void bcm2835_spi_setClockDivider(UInt16 divider)
     {
       _bcm2835_spi_setClockDivider_method(divider);
+    }
+    #endregion
+
+    #region "bcm2835_spi_set_speed_hz"
+    private delegate void bcm2835_spi_set_speed_hz_delegate(UInt32 speed_hz);
+    private void bcm2835_spi_set_speed_hz_unresolved(UInt32 speed_hz) { throw new MissingMethodException(); }
+    private bcm2835_spi_set_speed_hz_delegate _bcm2835_spi_set_speed_hz_method;
+    /// <summary>Sets the SPI clock divider by converting the speed parameter to
+    /// the equivalent SPI clock divider. (see bcm2835_spi_setClockDivider)
+    /// speed_hz The desired SPI clock speed in Hz</summary>
+    /// <param name="speed_hz">The desired SPI frequency</param>
+    public void bcm2835_spi_set_speed_hz(UInt32 speed_hz)
+    {
+      _bcm2835_spi_set_speed_hz_method(speed_hz);
     }
     #endregion
 
@@ -1501,6 +1523,148 @@ namespace LibBcm2835.Net
     public void bcm2835_spi_writenb([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len)
     {
       _bcm2835_spi_writenb_method(buf, len);
+    }
+    #endregion
+
+    #region "bcm2835_spi_write"
+    private delegate void bcm2835_spi_write_delegate(UInt16 data);
+    private void bcm2835_spi_write_unresolved(UInt16 data) { throw new MissingMethodException(); }
+    private bcm2835_spi_write_delegate _bcm2835_spi_write_method;
+    /// <summary>Transfers half-word to and from the currently selected SPI slave.
+    /// Asserts the currently selected CS pins (as previously set by bcm2835_spi_chipSelect)
+    /// during the transfer.
+    /// Clocks the 8 bit value out on MOSI, and simultaneously clocks in data from MISO.
+    /// Returns the read data byte from the slave.
+    /// Uses polled transfer as per section 10.6.1 of the BCM 2835 ARM Peripherls manual</summary>
+    /// <param name="data">The 8 bit data byte to write to MOSI</param>
+    public void bcm2835_spi_write(UInt16 data)
+    {
+      _bcm2835_spi_write_method(data);
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_begin"
+    private delegate Int32 bcm2835_aux_spi_begin_delegate();
+    private Int32 bcm2835_aux_spi_begin_unresolved() { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_begin_delegate _bcm2835_aux_spi_begin_method;
+    /// <summary>Start AUX SPI operations.</summary>
+    /// <remarks>
+    /// Start AUX SPI operations.
+    /// Forces RPi AUX SPI pins P1-36 (MOSI), P1-38 (MISO), P1-40 (CLK) and P1-36 (CE2)
+    /// to alternate function ALT4, which enables those pins for SPI interface.
+    /// </remarks>
+    /// <returns>1 if successful, 0 otherwise (perhaps because you are not running as root)</returns>
+    public Int32 bcm2835_aux_spi_begin()
+    {
+      return _bcm2835_aux_spi_begin_method();
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_end"
+    private delegate void bcm2835_aux_spi_end_delegate();
+    private void bcm2835_aux_spi_end_unresolved() { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_end_delegate _bcm2835_aux_spi_end_method;
+    /// <summary>End AUX SPI operations.</summary>
+    /// <remarks>
+    /// SPI1 pins P1-36 (MOSI), P1-38 (MISO), P1-40 (CLK) and P1-36 (CE2)
+    /// are returned to their default INPUT behaviour.
+    /// </remarks>
+    public void bcm2835_aux_spi_end()
+    {
+      _bcm2835_aux_spi_end_method();
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_setClockDivider"
+    private delegate void bcm2835_aux_spi_setClockDivider_delegate(UInt16 divider);
+    private void bcm2835_aux_spi_setClockDivider_unresolved(UInt16 divider) { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_setClockDivider_delegate _bcm2835_aux_spi_setClockDivider_method;
+    /// <summary>Sets the AUX SPI clock divider and therefore the AUX SPI clock speed.</summary>
+    /// <param name="divider">The desired AUX SPI clock divider</param>
+    public void bcm2835_aux_spi_setClockDivider(UInt16 divider)
+    {
+      _bcm2835_aux_spi_setClockDivider_method(divider);
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_CalcClockDivider"
+    private delegate UInt16 bcm2835_aux_spi_CalcClockDivider_delegate(UInt32 speed_hz);
+    private UInt16 bcm2835_aux_spi_CalcClockDivider_unresolved(UInt32 speed_hz) { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_CalcClockDivider_delegate _bcm2835_aux_spi_CalcClockDivider_method;
+    /// <summary>Calculates the input for \sa bcm2835_aux_spi_setClockDivider</summary>
+    /// <param name="speed_hz">A value between BCM2835_AUX_SPI_CLOCK_MIN and BCM2835_AUX_SPI_CLOCK_MAX</param>
+    /// <returns>Input for bcm2835_aux_spi_setClockDivider</returns>
+    public UInt16 bcm2835_aux_spi_CalcClockDivider(UInt32 speed_hz)
+    {
+      return _bcm2835_aux_spi_CalcClockDivider_method(speed_hz);
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_write"
+    private delegate void bcm2835_aux_spi_write_delegate(UInt16 data);
+    private void bcm2835_aux_spi_write_unresolved(UInt16 data) { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_write_delegate _bcm2835_aux_spi_write_method;
+    /// <summary>Transfers half-word to and from the AUX SPI slave.
+    /// Asserts the currently selected CS pins during the transfer.</summary>
+    /// <param name="data">The 8 bit data byte to write to MOSI</param>
+    public void bcm2835_aux_spi_write(UInt16 data)
+    {
+      _bcm2835_aux_spi_write_method(data);
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_writenb"
+    private delegate void bcm2835_aux_spi_writenb_delegate([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len);
+    private void bcm2835_aux_spi_writenb_unresolved([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len) { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_writenb_delegate _bcm2835_aux_spi_writenb_method;
+    /// <summary>Transfers any number of bytes to the AUX SPI slave.</summary>
+    /// <remarks>
+    /// Asserts the CE2 pin during the transfer.
+    /// </remarks>
+    /// <param name="buf">Buffer of bytes to send.</param>
+    /// <param name="len">Number of bytes in the tbuf buffer, and the number of bytes to send</param>
+    public void bcm2835_aux_spi_writenb([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len)
+    {
+      _bcm2835_aux_spi_writenb_method(buf, len);
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_transfern"
+    private delegate void bcm2835_aux_spi_transfern_delegate([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len);
+    private void bcm2835_aux_spi_transfern_unresolved([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len) { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_transfern_delegate _bcm2835_aux_spi_transfern_method;
+    /// <summary>Transfers any number of bytes to and from the AUX SPI slave</summary>
+    /// <remarks>
+    /// using bcm2835_aux_spi_transfernb.
+    /// The returned data from the slave replaces the transmitted data in the buffer.
+    /// (see also) bcm2835_spi_transfer()
+    /// </remarks>
+    /// <param nane="buf">Buffer of bytes to send. Received bytes will replace the contents</param>
+    /// <param name="len">Number of bytes int the buffer, and the number of bytes to send/received</param>
+    public void bcm2835_aux_spi_transfern([MarshalAs(UnmanagedType.LPArray)]byte[] buf, UInt32 len)
+    {
+      _bcm2835_aux_spi_transfern_method(buf, len);
+    }
+    #endregion
+
+    #region "bcm2835_aux_spi_transfernb"
+    private delegate void bcm2835_aux_spi_transfernb_delegate([MarshalAs(UnmanagedType.LPArray)]byte[] tbuf, [MarshalAs(UnmanagedType.LPArray)]byte[] rbuf, UInt32 len);
+    private void bcm2835_aux_spi_transfernb_unresolved([MarshalAs(UnmanagedType.LPArray)]byte[] tbuf, [MarshalAs(UnmanagedType.LPArray)]byte[] rbuf, UInt32 len) { throw new MissingMethodException(); }
+    private bcm2835_aux_spi_transfernb_delegate _bcm2835_aux_spi_transfernb_method;
+    /// <summary>Transfers any number of bytes to and from the AUX SPI slave.</summary>
+    /// <remarks>
+    /// Asserts the CE2 pin during the transfer.
+    /// Clocks the len 8 bit bytes out on MOSI, and simultaneously clocks in data from MISO.
+    /// The data read read from the slave is placed into rbuf. rbuf must be at least len bytes long
+    /// Uses polled transfer as per section 10.6.1 of the BCM 2835 ARM Peripherls manual
+    /// (see also) bcm2835_spi_transfer()
+    /// </remarks>
+    /// <param name="tbuf">Buffer of bytes to send.</param>
+    /// <param name="rbuf">Received bytes will by put in this buffer.</param>
+    /// <param name="len">Number of bytes in the tbuf buffer, and the number of bytes to send/received</param>
+    public void bcm2835_aux_spi_transfernb([MarshalAs(UnmanagedType.LPArray)]byte[] tbuf, [MarshalAs(UnmanagedType.LPArray)]byte[] rbuf, UInt32 len)
+    {
+      _bcm2835_aux_spi_transfernb_method(tbuf, rbuf, len);
     }
     #endregion
 
@@ -1805,6 +1969,7 @@ namespace LibBcm2835.Net
       _bcm2835_spi_end_method = GetDelegate<bcm2835_spi_end_delegate>("bcm2835_spi_end", bcm2835_spi_end_unresolved);
       _bcm2835_spi_setBitOrder_method = GetDelegate<bcm2835_spi_setBitOrder_delegate>("bcm2835_spi_setBitOrder", bcm2835_spi_setBitOrder_unresolved);
       _bcm2835_spi_setClockDivider_method = GetDelegate<bcm2835_spi_setClockDivider_delegate>("bcm2835_spi_setClockDivider", bcm2835_spi_setClockDivider_unresolved);
+      _bcm2835_spi_set_speed_hz_method = GetDelegate<bcm2835_spi_set_speed_hz_delegate>("bcm2835_spi_set_speed_hz", bcm2835_spi_set_speed_hz_unresolved);
       _bcm2835_spi_setDataMode_method = GetDelegate<bcm2835_spi_setDataMode_delegate>("bcm2835_spi_setDataMode", bcm2835_spi_setDataMode_unresolved);
       _bcm2835_spi_chipSelect_method = GetDelegate<bcm2835_spi_chipSelect_delegate>("bcm2835_spi_chipSelect", bcm2835_spi_chipSelect_unresolved);
       _bcm2835_spi_setChipSelectPolarity_method = GetDelegate<bcm2835_spi_setChipSelectPolarity_delegate>("bcm2835_spi_setChipSelectPolarity", bcm2835_spi_setChipSelectPolarity_unresolved);
@@ -1812,6 +1977,15 @@ namespace LibBcm2835.Net
       _bcm2835_spi_transfernb_method = GetDelegate<bcm2835_spi_transfernb_delegate>("bcm2835_spi_transfernb", bcm2835_spi_transfernb_unresolved);
       _bcm2835_spi_transfern_method = GetDelegate<bcm2835_spi_transfern_delegate>("bcm2835_spi_transfern", bcm2835_spi_transfern_unresolved);
       _bcm2835_spi_writenb_method = GetDelegate<bcm2835_spi_writenb_delegate>("bcm2835_spi_writenb", bcm2835_spi_writenb_unresolved);
+      _bcm2835_spi_write_method = GetDelegate<bcm2835_spi_write_delegate>("bcm2835_spi_write", bcm2835_spi_write_unresolved);
+      _bcm2835_aux_spi_begin_method = GetDelegate<bcm2835_aux_spi_begin_delegate>("bcm2835_aux_spi_begin", bcm2835_aux_spi_begin_unresolved);
+      _bcm2835_aux_spi_end_method = GetDelegate<bcm2835_aux_spi_end_delegate>("bcm2835_aux_spi_end", bcm2835_aux_spi_end_unresolved);
+      _bcm2835_aux_spi_setClockDivider_method = GetDelegate<bcm2835_aux_spi_setClockDivider_delegate>("bcm2835_aux_spi_setClockDivider", bcm2835_aux_spi_setClockDivider_unresolved);
+      _bcm2835_aux_spi_CalcClockDivider_method = GetDelegate<bcm2835_aux_spi_CalcClockDivider_delegate>("bcm2835_aux_spi_CalcClockDivider", bcm2835_aux_spi_CalcClockDivider_unresolved);
+      _bcm2835_aux_spi_write_method = GetDelegate<bcm2835_aux_spi_write_delegate>("bcm2835_aux_spi_write", bcm2835_aux_spi_write_unresolved);
+      _bcm2835_aux_spi_writenb_method = GetDelegate<bcm2835_aux_spi_writenb_delegate>("bcm2835_aux_spi_writenb", bcm2835_aux_spi_writenb_unresolved);
+      _bcm2835_aux_spi_transfern_method = GetDelegate<bcm2835_aux_spi_transfern_delegate>("bcm2835_aux_spi_transfern", bcm2835_aux_spi_transfern_unresolved);
+      _bcm2835_aux_spi_transfernb_method = GetDelegate<bcm2835_aux_spi_transfernb_delegate>("bcm2835_aux_spi_transfernb", bcm2835_aux_spi_transfernb_unresolved);
       _bcm2835_i2c_begin_method = GetDelegate<bcm2835_i2c_begin_delegate>("bcm2835_i2c_begin", bcm2835_i2c_begin_unresolved);
       _bcm2835_i2c_end_method = GetDelegate<bcm2835_i2c_end_delegate>("bcm2835_i2c_end", bcm2835_i2c_end_unresolved);
       _bcm2835_i2c_setSlaveAddress_method = GetDelegate<bcm2835_i2c_setSlaveAddress_delegate>("bcm2835_i2c_setSlaveAddress", bcm2835_i2c_setSlaveAddress_unresolved);
