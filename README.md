@@ -1,6 +1,11 @@
 LibBcm2835.Net
 ==============
 
+This library is now deprecated. I advice that you use .NET Core and System.Device.Gpio from now on ;-)
+
+Description
+-----------
+
 A .NET/Mono Wrapper for Mike McCauley's C library for Broadcom BCM 2835 as used in Raspberry Pi  
 ( http://www.airspayce.com/mikem/bcm2835/index.html )
 
@@ -76,7 +81,7 @@ License
 -------
 The MIT License (MIT)
 
-Copyright (c) 2017 Frank Hommers ( http://hmm.rs/LibBcm2835.Net )
+Copyright (c) 2020 Frank Hommers ( http://hmm.rs/LibBcm2835.Net )
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
